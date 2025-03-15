@@ -18,7 +18,7 @@ public ActionResult<string> GetAuth()
 }
 
 [HttpGet("not-found")]
-public ActionResult<Appuser> GetNotFound(){
+public ActionResult<AppUser> GetNotFound(){
 
     var thing = context.Users.Find(-1);
 
@@ -30,7 +30,7 @@ public ActionResult<Appuser> GetNotFound(){
 
 
 [HttpGet("server-error")]
-public ActionResult<Appuser> GetServerError(){
+public ActionResult<AppUser> GetServerError(){
 
     var thing = context.Users.Find(-1) ?? throw new Exception("A bad thing occured");
 
