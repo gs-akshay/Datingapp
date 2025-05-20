@@ -40,10 +40,24 @@ public class UserRepository(DataContext context,IMapper mapper) : IUserRepositor
         return await context.Users.Include(x=>x.Photos).SingleOrDefaultAsync(x=>x.UserName==username);
     }
 
-    public async Task<bool> SaveAllSync()
+public async Task<bool> SaveAllASync()
+{
+    try
     {
-        return await context.SaveChangesAsync()>0;
+        return await context.SaveChangesAsync() > 0;
     }
+    catch (DbUpdateException ex)
+    {
+        Console.WriteLine("DbUpdateException:");
+        Console.WriteLine("Message: " + ex.Message);
+        Console.WriteLine("InnerException: " + ex.InnerException?.Message);
+
+        // Optional: Log stack trace if needed
+        Console.WriteLine("StackTrace: " + ex.StackTrace);
+
+        throw; // Let the middleware catch it and return 500
+    }
+}
 
     public void Update(AppUser user)
     {
